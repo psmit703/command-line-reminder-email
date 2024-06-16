@@ -4,15 +4,27 @@ from datetime import datetime as dt
 import json
 import random
 
-print(sys.argv)
-
 if len(sys.argv) == 1:
-    print("Invalid command usage\nPlease use \"remindme.py help\" for usage information")
+    print("Invalid command usage\nPlease use \"remindme help\" for usage information")
     sys.exit(1)
 
-if sys.argv[1] == "remove":
+if sys.argv[1] == "help":
+    print("Usage:")
+    print("\tremindme add -d <date> -s <subject> -m <message>")
+    print("\tremindme remove <id>")
+    print("\tremindme list [--all]")
+    print("\tremindme help")
+    print("")
+    print("The date should be in the format YYYY-MM-DD or YYYY-MM, from the ISO 8601 standard")
+    print("Dates without a day field provided will be interpreted as the first day of the month")
+    print("The subject and message fields should not be empty")
+    print("The --all flag can be used with the list command to see all reminders, including those that have already been completed")
+    print("Reminders will be emailed nightly at midnight server time")
+    print("")
+
+elif sys.argv[1] == "remove":
     if len(sys.argv) < 3:
-        print("Usage: remindme.py remove <id>\nTo see a list of reminders and their IDs, use \"remindme.py list\" or \"remindme.py list --all\"")
+        print("Usage: remindme remove <id>\nTo see a list of reminders and their IDs, use \"remindme list\" or \"remindme list --all\"")
         sys.exit(1)
 
     with open("reminders.json", "r") as f:
@@ -61,11 +73,11 @@ elif sys.argv[1] == "list":
 
 elif sys.argv[1] == "add":
     if "-d" not in sys.argv or "-s" not in sys.argv or "-m" not in sys.argv:
-        print("Usage: remindme.py add -d <date> -s <subject> -m <message>")
+        print("Usage: remindme add -d <date> -s <subject> -m <message>")
         sys.exit(1)
 
     if max(sys.argv.index("-d"), sys.argv.index("-s"), sys.argv.index("-m")) == len(sys.argv) - 1:
-        print("Usage: remindme.py add -d <date> -s <subject> -m <message>")
+        print("Usage: remindme add -d <date> -s <subject> -m <message>")
         sys.exit(1)
 
     date = sys.argv[sys.argv.index("-d") + 1]
@@ -117,3 +129,7 @@ elif sys.argv[1] == "add":
 
     print("The following reminder has been successfully added:\n\n"
           + "\tRandom Unqiue ID: " + str(thisId) + "\n\tDate: " + myDate + "\n\tSubject: " + subject + "\n\tMessage: " + message + "\n\tAlready Completed: False" + "\n")
+
+else:
+    print("Invalid command usage\nPlease use \"remindme help\" for usage information")
+    sys.exit(1)
