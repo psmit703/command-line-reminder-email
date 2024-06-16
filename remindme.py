@@ -1,0 +1,88 @@
+import sys
+import re
+from datetime import datetime as dt
+import json
+import random
+
+print(sys.argv)
+
+elif sys.argv[1] == "list":
+    with open("reminders.json", "r") as f:
+        currData = json.load(f)
+
+    if len(currData["reminders"]) == 0:
+        print("No reminders found")
+        sys.exit(0)
+
+    if len(sys.argv) > 2 and sys.argv[2] == "--all":
+        print("There are " +
+              str(len(currData["reminders"])) + " total reminders:\n")
+        for reminder in currData["reminders"]:
+            print("\tRandom Unique ID: " + str(reminder["id"]) + "\n\tDate: " + reminder["date"] + "\n\tSubject: " +
+                  reminder["subject"] + "\n\tMessage: " + reminder["message"] + "\n\tAlready Completed: " + str(reminder["completed"]) + "\n")
+    else:
+        print("There are currently " +
+              str(len([x for x in currData["reminders"] if not x["completed"]])) + " reminders that have not yet been run:\n")
+        for reminder in currData["reminders"]:
+            if not reminder["completed"]:
+                print("\tRandom Unique ID: " + str(reminder["id"]) + "\n\tDate: " + reminder["date"] + "\n\tSubject: " +
+                      reminder["subject"] + "\n\tMessage: " + reminder["message"] + "\n\tAlready Completed: " + str(reminder["completed"]) + "\n")
+
+elif sys.argv[1] == "add":
+    if "-d" not in sys.argv or "-s" not in sys.argv or "-m" not in sys.argv:
+        print("Usage: remindme.py add -d <date> -s <subject> -m <message>")
+        sys.exit(1)
+
+    if max(sys.argv.index("-d"), sys.argv.index("-s"), sys.argv.index("-m")) == len(sys.argv) - 1:
+        print("Usage: remindme.py add -d <date> -s <subject> -m <message>")
+        sys.exit(1)
+
+    date = sys.argv[sys.argv.index("-d") + 1]
+    subject = sys.argv[sys.argv.index("-s") + 1]
+    message = sys.argv[sys.argv.index("-m") + 1]
+
+    dateMatches = re.match(r"^(\d{4})-(\d{2})-(\d{2})$",
+                           date) or re.match(r"^(\d{4})-(\d{2})$", date)
+
+    if dateMatches is None:
+        raise ValueError("Invalid date format\nPlease use YYYY-MM-DD or YYYY-MM, from the ISO 8601 standard\n"
+                         + "Dates without a day field provided will be interpreted as the first day of the month\n"
+                         + "Data provided by user: " + date)
+
+    if len(dateMatches.groups()) == 2:
+        myDate = "".join(list(dateMatches.groups())) + "01"
+
+    else:  # len(dateMatches.groups()) == 3
+        myDate = "".join(list(dateMatches.groups()))
+
+    try:
+        dt(year=int(myDate[0:4]), month=int(myDate[4:6]), day=int(myDate[6:8]))
+    except ValueError as e:
+        raise ValueError("Invalid date\nError: " + str(e) +
+                         "\nData provided by user: " + date)
+
+    myDate = myDate[0:4] + "-" + myDate[4:6] + "-" + myDate[6:8]
+
+    if len(subject) == 0:
+        raise ValueError("Subject cannot be empty")
+
+    if len(message) == 0:
+        raise ValueError("Message cannot be empty")
+
+    dct = {"date": myDate, "subject": subject, "message": message}
+
+    with open("reminders.json", "r") as f:
+        currData = json.load(f)
+
+    currIds = [x["id"] for x in currData["reminders"]]
+    thisId = random.choice([x for x in range(1, 100000) if x not in currIds])
+
+    dct["id"] = thisId
+    dct["completed"] = False
+    currData["reminders"].append(dct)
+
+    with open("reminders.json", "w") as f:
+        json.dump(currData, f)
+
+    print("The following reminder has been successfully added:\n\n"
+          + "\tRandom Unqiue ID: " + str(thisId) + "\n\tDate: " + myDate + "\n\tSubject: " + subject + "\n\tMessage: " + message + "\n\tAlready Completed: False" + "\n")
