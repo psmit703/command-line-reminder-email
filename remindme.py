@@ -6,6 +6,37 @@ import random
 
 print(sys.argv)
 
+if len(sys.argv) == 1:
+    print("Invalid command usage\nPlease use \"remindme.py help\" for usage information")
+    sys.exit(1)
+
+if sys.argv[1] == "remove":
+    if len(sys.argv) < 3:
+        print("Usage: remindme.py remove <id>\nTo see a list of reminders and their IDs, use \"remindme.py list\" or \"remindme.py list --all\"")
+        sys.exit(1)
+
+    with open("reminders.json", "r") as f:
+        currData = json.load(f)
+
+    try:
+        idToRemove = int(sys.argv[2])
+    except ValueError:
+        print("Invalid ID provided\nPlease provide a valid integer ID")
+        sys.exit(1)
+
+    if idToRemove not in [x["id"] for x in currData["reminders"]]:
+        print(f"No reminder with ID {idToRemove} found")
+        sys.exit(0)
+
+    currData["reminders"] = [
+        x for x in currData["reminders"] if x["id"] != idToRemove]
+
+    with open("reminders.json", "w") as f:
+        json.dump(currData, f)
+
+    print("Reminder with ID " + str(idToRemove) +
+          " has been successfully removed")
+
 elif sys.argv[1] == "list":
     with open("reminders.json", "r") as f:
         currData = json.load(f)
