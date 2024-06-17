@@ -2,7 +2,9 @@
 
 ## Description
 
-This tool is designed to facilitate a programmatic way of creating and emailing reminders. 
+This tool is designed to facilitate a programmatic way of creating and emailing reminders. I created it to use as part of a remote Ubuntu 22.04 instance in order to better keep track of bandwidth usage, renewing access tokens, and other important things that may be needed as part of developing programs. It requires a small amount of configuration in order to properly set up, but should be a reliable way of sending reminders via email so that they are external to the remote development server.
+
+&copy; 2024 [Pete Smith](https://www.psmit.dev/). This tool is licensed under [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/).
 
 ## Usage
 
@@ -26,7 +28,7 @@ Firstly, please note that `remindme` being used as a command is dependent on the
 
 Configuring the script to work as desired will depend to an extent on user preference. My goal was to make it callable in a similar manner to a command like `mkdir` on the command line. A helpful guide to set this up is available here:
 
-[https://stackoverflow.com/questions/6163087/turn-an-application-or-script-into-a-shell-command](https://stackoverflow.com/a/6163113)
+<https://stackoverflow.com/q/6163087>
 
 If desired, the script can simply be called manually instead by using its full (or relative) directory path as an argument to the Python interpreter.
 
