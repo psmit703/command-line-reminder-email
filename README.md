@@ -23,8 +23,8 @@ The tool has four commands:
 ## Configuration
 
 Configuring the script to work as desired will depend to an extent on user preference. My goal was to make it callable in a similar manner to a command like `mkdir` on the command line. A helpful guide to set this up is available here:
-  
-* [https://stackoverflow.com/questions/6163087/turn-an-application-or-script-into-a-shell-command](https://stackoverflow.com/a/6163113)
+
+[https://stackoverflow.com/questions/6163087/turn-an-application-or-script-into-a-shell-command](https://stackoverflow.com/a/6163113)
 
 If desired, the script can simply be called manually instead by using its full (or relative) directory path as an argument to the Python interpreter.
 
