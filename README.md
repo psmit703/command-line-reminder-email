@@ -30,7 +30,7 @@ Configuring the script to work as desired will depend to an extent on user prefe
 
 If desired, the script can simply be called manually instead by using its full (or relative) directory path as an argument to the Python interpreter.
 
-Regarding `mailer.py`, the script depends on vnStat, Postfix, and Mailutils. (to note, Postfix is probably interchangeable with similar mail transport agents, however Postfix is the only one I have tested with) The script is intended to be used as the target of a cron job, however this must be set up by the user or may be changed at the user's preference. Depending on the time of day selected in the cron job, the subject of the bandwidth report in `mailer.py` might need to be changed to something other than "nightly".
+Regarding `mailer.py`, the script depends on vnStat, Postfix, and Mailutils already being installed. (to note, Postfix is probably interchangeable with similar mail transport agents, however Postfix is the only one I have tested with) The script is intended to be used as the target of a cron job, however this must be set up by the user or may be changed at the user's preference. Depending on the time of day selected in the cron job, the subject of the bandwidth report in `mailer.py` might need to be changed to something other than "nightly".
 
 Calls to open() in both `remindme.py` and `mailer.py` may need to be changed depending on the user's configuration. The full/relative directories of `reminders.json` and `config.json` in the open() calls of both scripts should be changed accordingly so that the scripts can access the files.
 
