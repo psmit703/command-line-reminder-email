@@ -12,6 +12,8 @@ The tool has four commands:
 * `remindme list [--all]`
 * `remindme help`
 
+Firstly, please note that `remindme` being used as a command is dependent on the user's configuration, described later. Similar ways of using the tool may be `remindme.py ...`, `python remindme.py ...`, `python3 remindme.py`, etc.
+
 `add` adds a new reminder to the tool's records. `<date>` should be inputted as either YYYY-MM-DD or YYYY-MM, which are both in the ISO 8601 standard. If no day is provided, it will be interpreted as the first of the month. It is the user's responsibility to provide a date in the future, otherwise the reminder will never be sent. `<subject>` defines what the subject of the email will be, and `<message>` defines what the body of the email will be. Neither may be empty strings. Once added, each reminder will be assigned a random integer from 0 inclusive to 99,999 inclusive as its ID.
 
 `remove` removes a reminder from the tool's records. This may be used either on reminders which have already been sent as an email or reminders which have not yet been sent as an email. `<id>` should be the reminder's ID. (described in the `add` section above and in the `list` section below)
